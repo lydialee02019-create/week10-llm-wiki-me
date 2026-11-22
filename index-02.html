@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>為什麼我們越來越難專心？— 大腦專注力教學簡報</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --warn: #fb7185;
+      --good: #34d399;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 5px;
+      background: #334155;
+      width: 100%;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      width: 12.5%;
+      transition: width 0.3s ease;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 920px;
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 20px;
+      padding: 44px 52px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      animation: fadeIn 0.35s ease;
+    }
+    .slide.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tag {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+    h1 { font-size: 2.5rem; line-height: 1.25; margin-bottom: 18px; }
+    h2 { font-size: 1.9rem; line-height: 1.3; margin-bottom: 18px; color: #fff; }
+    p.lead { font-size: 1.2rem; color: #cbd5e1; line-height: 1.7; margin-bottom: 24px; }
+    .analogy {
+      background: rgba(15, 23, 42, 0.7);
+      border-left: 4px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 12px;
+    }
+    .box {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .box h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--accent); }
+    .box.warn h3 { color: var(--warn); }
+    .box.good h3 { color: var(--good); }
+    .box p, .box li { font-size: 0.98rem; color: #cbd5e1; line-height: 1.6; }
+    ul.clean { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    ul.clean li {
+      background: rgba(15, 23, 42, 0.5);
+      padding: 14px 18px;
+      border-radius: 10px;
+      line-height: 1.6;
+      font-size: 1.02rem;
+    }
+    .wiki-ref {
+      margin-top: 28px;
+      padding-top: 14px;
+      border-top: 1px solid #334155;
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+    footer {
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0b1120;
+      border-top: 1px solid #1e293b;
+    }
+    button {
+      background: #1e293b;
+      color: var(--text);
+      border: 1px solid #475569;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover:not(:disabled) { background: var(--accent); color: #0f172a; font-weight: 700; }
+    button:disabled { opacity: 0.35; cursor: not-allowed; }
+    .hint { color: var(--muted); font-size: 0.9rem; }
+    @media (max-width: 720px) {
+      .slide { padding: 28px 24px; }
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.45rem; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+  <main>
+    <!-- Slide 1 -->
+    <section class="slide active">
+      <span class="tag">LLM Wiki 知識庫教學簡報</span>
+      <h1>為什麼我們越來越難專心？</h1>
+      <p class="lead">從大腦神經機制、多巴胺陷阱到科學恢復法，5 分鐘看懂現代人分心的真正原因。</p>
+      <div class="analogy">
+        💡 <strong>白話比喻：</strong>你的大腦就像一台同時開了 50 個網頁分頁的電腦——不是你變笨了，而是系統記憶體被「頻繁切換」跟「即時快感」塞爆了。
+      </div>
+      <div class="wiki-ref">
+        <span>知識庫來源：00_首頁總覽.md</span>
+        <span>第 1 / 8 頁</span>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide">
+      <span class="tag">01｜大腦裡面發生什麼事？</span>
+      <h2>前額葉皮質：大腦裡最容易過熱的 CEO</h2>
+      <div class="analogy">
+        🧠 <strong>大腦怎麼管專注力？</strong>主要靠「額葉－紋狀核－小腦」迴路，以及<strong>多巴胺</strong>與<strong>正腎上腺素</strong>負責傳遞訊號 [來源1]。
+      </div>
+      <div class="grid-2">
+        <div class="box">
+          <h3>🔥 代謝疲勞（大腦乳酸）</h3>
+          <p>高強度思考時，背外側前額葉（dlPFC）會堆積「谷氨酸」等代謝壓力，就像肌肉運動過量會痠痛一樣，導致腦袋轉不動 [來源5]。</p>
+        </div>
+        <div class="box">
+          <h3>👻 注意力殘留（Attention Residue）</h3>
+          <p>上一件事還沒做完就切換任務，前一個念頭會像殘影一樣留在記憶體裡，讓你無法全速處理眼前的工作 [來源2]。</p>
+        </div>
+      </div>
+      <div class="wiki-ref">
+        <span>知識庫來源：01_大腦運作原理.md（[來源1]、[來源2]、[來源5]）</span>
+        <span>第 2 / 8 頁</span>
+      </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide">
+      <span class="tag">02｜誰偷走了你的專注力？</span>
+      <h2>短影音與演算法的「多巴胺劫持」</h2>
+      <p class="lead">演算法用零門檻的快速刺激，重新訓練了你的大腦獎勵系統。</p>
+      <ul class="clean">
+        <li><strong>🍬 垃圾食物般的快感：</strong>傳統成就感需要「努力與忍耐」才分泌多巴胺；短影音只要滑動手指就能秒獲刺激，長期會讓多巴胺受體鈍化，導致看書或工作時覺得無聊沒動力 [來源3]。</li>
+        <li><strong>🧩 碎片化思考：</strong>高度剪輯的短影片缺乏前後因果脈絡，大腦習慣被動接收資訊後，深度閱讀與邏輯推理能力會跟著下降 [來源3]。</li>
+        <li><strong>😴 慢性睡眠負債：</strong>熬夜滑手機會削弱前額葉控制衝動的能力，甚至在白天出現幾秒鐘不自覺斷線的「微睡眠」[來源2]。</li>
+      </ul>
+      <div class="wiki-ref">
+        <span>知識庫來源：02_現代干擾元兇.md（[來源2]、[來源3]）</span>
+        <span>第 3 / 8 頁</span>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide">
+      <span class="tag">03｜破解常見迷思（上）</span>
+      <h2>迷思一：我其實很會「一心多用」？</h2>
+      <div class="analogy">
+        ⚠️ <strong>殘酷真相：</strong>人類大腦根本沒有雙核心處理器！所謂「多工（Multitasking）」，其實只是在多個任務之間<strong>瘋狂切換頻道</strong> [來源4]。
+      </div>
+      <div class="grid-2">
+        <div class="box warn">
+          <h3>📉 切換要付「開機費」</h3>
+          <p>每次從聊天視窗切回報告，大腦都要重新載入規則，頻繁切換最高可能造成 <strong>40% 的生產力損失</strong> [來源2]。</p>
+        </div>
+        <div class="box warn">
+          <h3>😵 記憶斷片與情緒耗竭</h3>
+          <p>表面上同時做很多事，實際上錯誤率變高、事情記不牢，還會加速心理能量透支 [來源4]。</p>
+        </div>
+      </div>
+      <div class="wiki-ref">
+        <span>知識庫來源：03_常見迷思與誤區.md（[來源2]、[來源4]）</span>
+        <span>第 4 / 8 頁</span>
+      </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide">
+      <span class="tag">03｜破解常見迷思（下）</span>
+      <h2>迷思二：滑手機算休息？分心是意志力太差？</h2>
+      <div class="grid-2">
+        <div class="box warn">
+          <h3>❌ 滑手機／打遊戲 ≠ 休息</h3>
+          <p>滑短影音或玩策略遊戲依然會大量消耗前額葉的執行資源，大腦根本沒降溫，下一輪工作只會更難進入狀態 [來源5]。</p>
+        </div>
+        <div class="box warn">
+          <h3>❌ 靠意志力硬撐會適得其反</h3>
+          <p>分心常源於睡眠負債、切換成本或先天神經傳導差異（如成人 ADHD），一味責怪自己只會加重焦慮 [來源1][來源2]。</p>
+        </div>
+      </div>
+      <div class="wiki-ref">
+        <span>知識庫來源：03_常見迷思與誤區.md（[來源1]、[來源2]、[來源5]）</span>
+        <span>第 5 / 8 頁</span>
+      </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="slide">
+      <span class="tag">04｜實戰解決方案（1）</span>
+      <h2>幫前額葉散熱：真正的「換腦區」休息法</h2>
+      <p class="lead">想清掉大腦裡的代謝壓力，必須讓「思考腦」下班，換「感官與身體」上班。</p>
+      <div class="grid-2">
+        <div class="box good">
+          <h3>✅ 真正有效的 5 分鐘微休息</h3>
+          <p>閉眼靜坐、深呼吸、起身伸展走動、看遠方或曬太陽——這些動作不需前額葉監控，才能真正清除代謝疲勞 [來源5]。</p>
+        </div>
+        <div class="box">
+          <h3>⏱️ 客製化你的專注節奏</h3>
+          <p>瑣碎雜事用經典 <strong>25+5 分鐘</strong>番茄鐘；寫作或寫程式等深度工作，改用 <strong>52+17</strong> 或 <strong>90+15 分鐘</strong>，避免打斷心流 [來源5]。</p>
+        </div>
+      </div>
+      <div class="wiki-ref">
+        <span>知識庫來源：04_找回專注力的方法.md（[來源5]）</span>
+        <span>第 6 / 8 頁</span>
+      </div>
+    </section>
+
+    <!-- Slide 7 -->
+    <section class="slide">
+      <span class="tag">04｜實戰解決方案（2）</span>
+      <h2>環境隔離與多巴胺戒斷</h2>
+      <ul class="clean">
+        <li><strong>📵 建立物理防火牆：</strong>工作時直接關閉通知、把手機放到視線之外，用環境設計取代薄弱的意志力 [來源2]。</li>
+        <li><strong>📉 3 天階段性多巴胺戒斷：</strong>先記錄每天滑短影音的時間，從前 3 天限制使用時數開始，讓鈍化的多巴胺受體慢慢恢復敏感度 [來源3]。</li>
+        <li><strong>🩺 辨識醫療需求：</strong>若從小到大在學業、工作上持續出現嚴重組織困難、忘東忘西與衝動，應尋求身心科／神經科評估是否為成人 ADHD [來源1]。</li>
+      </ul>
+      <div class="wiki-ref">
+        <span>知識庫來源：04_找回專注力的方法.md（[來源1]、[來源2]、[來源3]）</span>
+        <span>第 7 / 8 頁</span>
+      </div>
+    </section>
+
+    <!-- Slide 8 -->
+    <section class="slide">
+      <span class="tag">總結｜帶走三個行動心法</span>
+      <h2>找回專注力，從對大腦溫柔開始</h2>
+      <div class="grid-2">
+        <div class="box good">
+          <h3>1. 單線程作業</h3>
+          <p>一次只開一個視窗、只做一件事，減少注意力殘留與 40% 切換損耗。</p>
+        </div>
+        <div class="box good">
+          <h3>2. 換腦區休息</h3>
+          <p>休息時放下手機，用閉眼、走路或深呼吸替前額葉降溫。</p>
+        </div>
+      </div>
+      <div class="analogy" style="margin-top: 20px;">
+        📚 <strong>本簡報知識庫來源：</strong>嚴格依據《現代人注意力不集中 LLM Wiki》（共 5 篇結構化知識頁、5 篇真實醫療與心理學來源）生成，無外部腦補內容。
+      </div>
+      <div class="wiki-ref">
+        <span>知識庫來源：00_首頁總覽.md ～ 04_找回專注力的方法.md</span>
+        <span>第 8 / 8 頁</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <button id="prevBtn" onclick="changeSlide(-1)">← 上一頁</button>
+    <span class="hint">可使用鍵盤 ← → 方向鍵翻頁</span>
+    <button id="nextBtn" onclick="changeSlide(1)">下一頁 →</button>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const progress = document.getElementById('progress');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let current = 0;
+
+    function updateSlide() {
+      slides.forEach((s, i) => s.classList.toggle('active', i === current));
+      progress.style.width = ((current + 1) / slides.length * 100) + '%';
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+    }
+
+    function changeSlide(dir) {
+      const next = current + dir;
+      if (next >= 0 && next < slides.length) {
+        current = next;
+        updateSlide();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>
